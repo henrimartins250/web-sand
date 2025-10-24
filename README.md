@@ -3,9 +3,6 @@ trying to do a webgpu sand sim
 
 ````mermaid
 ---
-config:
-  theme: neo-dark
----
 mindmap
   root((Game Design Ideas))
     Physics
