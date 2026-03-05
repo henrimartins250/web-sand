@@ -2,6 +2,10 @@
 trying to do a webgpu sand sim
 
 ````mermaid
+
+%%{init:
+ {'theme':'neutral'}
+}%%
 mindmap
   root((Game Design Ideas))
     Physics
