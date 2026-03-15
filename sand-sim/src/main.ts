@@ -1,28 +1,17 @@
-async function start() {
-  if (!navigator.gpu) {
-    fail("this browser does not support WebGPU");
-    return;
-  }
+import { Render } from "./render.ts";
+import { initGpu } from "./gpu.ts";
+import { addListeners, resizeCanvas } from "./listeners.ts";
 
-  const adapter = await navigator.gpu.requestAdapter();
-  if (!adapter) {
-    fail("this browser supports webgpu but it appears disabled");
-    return;
-  }
+async function main(device) {
+  const canvas = document.querySelector("canvas") as HTMLCanvasElement;
 
-  const device = await adapter.requestDevice();
-  device.lost.then((info) => {
-    console.error(`WebGPU device was lost: ${info.message}`);
+  const gpu = await initGpu();
 
-    // 'reason' will be 'destroyed' if we intentionally destroy the device.
-    if (info.reason !== "destroyed") {
-      // try again
-      start();
-    }
+  addListeners(canvas, () => {
+    resizeCanvas(canvas);
   });
 
-  main(device);
+  Render(gpu, canvas);
 }
-start();
 
-function main(device) {}
+main();
