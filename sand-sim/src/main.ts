@@ -1,4 +1,4 @@
-import { Render } from "./render.ts";
+import { Render } from "./renderer/render.ts";
 import { initGpu } from "./gpu.ts";
 import { addListeners, resizeCanvas } from "./listeners.ts";
 
