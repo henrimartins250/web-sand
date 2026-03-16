@@ -9,7 +9,7 @@ export function Render(gpu, canvas) {
     format: format,
   });
 
-  function frame() {
+  function draw() {
     const commandEncoder = device.createCommandEncoder();
     const textureView = context.getCurrentTexture().createView();
 
@@ -32,8 +32,7 @@ export function Render(gpu, canvas) {
     passEncoder.end();
 
     device.queue.submit([commandEncoder.finish()]);
-    requestAnimationFrame(frame);
   }
 
-  requestAnimationFrame(frame);
+  return draw;
 }

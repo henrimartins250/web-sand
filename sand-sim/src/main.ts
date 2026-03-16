@@ -11,7 +11,15 @@ async function main(device) {
     resizeCanvas(canvas);
   });
 
-  Render(gpu, canvas);
+  const draw = Render(gpu, canvas);
+
+  function loop() {
+    draw();
+
+    requestAnimationFrame(loop);
+  }
+
+  requestAnimationFrame(loop);
 }
 
 main();
