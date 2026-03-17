@@ -1,7 +1,7 @@
 import { createPipeline } from "./pipeline.ts";
-import { setBindGroups } from "./buffers.ts";
+import { bufferManager } from "./buffers.ts";
 
-export function Render(gpu, canvas) {
+export function createRenderer(gpu, canvas) {
   const { device } = gpu;
   const context = canvas.getContext("webgpu");
   const format = navigator.gpu.getPreferredCanvasFormat();
@@ -10,49 +10,41 @@ export function Render(gpu, canvas) {
     format: format,
   });
 
-  const triangleData = new Float32Array(8);
+  const pipeline = createPipeline(device, format);
+  const buffers = new bufferManager(device);
 
-  const uniformBuffer = device.createBuffer({
-    size: triangleData.byteLength,
-    usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
+  const uniformBuffer = buffers.createUniform(256);
+
+  const uniformBindGroup = device.createBindGroup({
+    layout: pipeline.getBindGroupLayout(0),
+    entries: [{ binding: 0, resource: uniformBuffer }],
   });
 
-  const pipeline = createPipeline(device, format);
-  const uniformBindGroup = setBindGroups(device, pipeline, uniformBuffer);
+  return {
+    draw(uniformData) {
+      const commandEncoder = device.createCommandEncoder();
+      const textureView = context.getCurrentTexture().createView();
 
-  function draw(triangle) {
-    const commandEncoder = device.createCommandEncoder();
-    const textureView = context.getCurrentTexture().createView();
+      device.queue.writeBuffer(uniformBuffer, 0, uniformData);
 
-    triangleData[0] = triangle.position[0];
-    triangleData[1] = triangle.position[1];
-    // [2] and [3] are padding
-    triangleData[4] = triangle.color[0];
-    triangleData[5] = triangle.color[1];
-    triangleData[6] = triangle.color[2];
-    triangleData[7] = 1.0; // Alpha
+      const renderPassDescriptor: GPURenderPassDescriptor = {
+        colorAttachments: [
+          {
+            view: textureView,
+            clearValue: [0, 0, 0, 0], // Clear to transparent
+            loadOp: "clear",
+            storeOp: "store",
+          },
+        ],
+      };
 
-    device.queue.writeBuffer(uniformBuffer, 0, triangleData);
+      const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
+      passEncoder.setPipeline(pipeline);
+      passEncoder.setBindGroup(0, uniformBindGroup);
+      passEncoder.draw(3);
+      passEncoder.end();
 
-    const renderPassDescriptor: GPURenderPassDescriptor = {
-      colorAttachments: [
-        {
-          view: textureView,
-          clearValue: [0, 0, 0, 0], // Clear to transparent
-          loadOp: "clear",
-          storeOp: "store",
-        },
-      ],
-    };
-
-    const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
-    passEncoder.setPipeline(pipeline);
-    passEncoder.setBindGroup(0, uniformBindGroup);
-    passEncoder.draw(3);
-    passEncoder.end();
-
-    device.queue.submit([commandEncoder.finish()]);
-  }
-
-  return draw;
+      device.queue.submit([commandEncoder.finish()]);
+    },
+  };
 }
