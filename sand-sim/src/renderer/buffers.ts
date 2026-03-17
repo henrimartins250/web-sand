@@ -1,5 +1,5 @@
-export class bufferManager {
-  constructor(private device: GPUdevice) {}
+export class BufferManager {
+  constructor(private device: GPUDevice) {}
 
   createUniform(size: number): GPUBuffer {
     return this.device.createBuffer({

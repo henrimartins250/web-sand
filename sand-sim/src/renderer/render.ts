@@ -1,17 +1,19 @@
 import { createPipeline } from "./pipeline.ts";
-import { bufferManager } from "./buffers.ts";
+import { BufferManager } from "./buffers.ts";
 
-export function createRenderer(gpu, canvas) {
-  const { device } = gpu;
+export function createRenderer(
+  device: GPUDevice,
+  format: GPUTextureFormat,
+  canvas: HTMLCanvasElement,
+) {
   const context = canvas.getContext("webgpu");
-  const format = navigator.gpu.getPreferredCanvasFormat();
   context.configure({
     device,
     format: format,
   });
 
   const pipeline = createPipeline(device, format);
-  const buffers = new bufferManager(device);
+  const buffers = new BufferManager(device);
 
   const uniformBuffer = buffers.createUniform(256);
 

@@ -5,15 +5,13 @@ import { update } from "./engine/update.ts";
 import type { Triangle } from "./engine/components.ts";
 
 async function main() {
-  const canvas = document.querySelector("canvas") as HTMLCanvasElement;
-
   const gpu = await initGpu();
 
-  addListeners(canvas, () => {
-    resizeCanvas(canvas);
+  addListeners(gpu.canvas, () => {
+    resizeCanvas(gpu.canvas);
   });
 
-  const renderer = createRenderer(gpu, canvas);
+  const renderer = createRenderer(gpu.device, gpu.format, gpu.canvas);
 
   let triangle: Triangle = {
     position: [0, 0],
@@ -21,7 +19,7 @@ async function main() {
   };
   let last = 0;
 
-  function loop(time) {
+  function loop(time: number) {
     let DT = (time - last) / 1000;
 
     last = time;
@@ -33,7 +31,7 @@ async function main() {
     requestAnimationFrame(loop);
   }
 
-  function getRenderData(triangle) {
+  function getRenderData(triangle: Triangle) {
     const data = new Float32Array(8);
 
     data[0] = triangle.position[0];

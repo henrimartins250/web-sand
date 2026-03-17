@@ -31,5 +31,9 @@ export async function initGpu() {
     // }
   });
 
-  return { adapter, device };
+  const canvas = (await document.querySelector("canvas")) as HTMLCanvasElement;
+
+  const format = await navigator.gpu.getPreferredCanvasFormat();
+
+  return { adapter, device, format, canvas };
 }
