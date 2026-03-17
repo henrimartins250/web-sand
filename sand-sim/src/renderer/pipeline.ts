@@ -9,6 +9,7 @@ export function createPipeline(device, format) {
         code: vs_triangle,
       }),
     },
+
     fragment: {
       module: device.createShaderModule({
         code: fs_red,
