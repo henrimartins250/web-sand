@@ -1,6 +1,9 @@
 # web-sand
 trying to do a webgpu sand sim
 
+# status
+5% done
+
 ````mermaid
 
 %%{init:
