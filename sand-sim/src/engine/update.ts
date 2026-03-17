@@ -8,14 +8,14 @@ export function update(DT, triangle) {
 let t = 0;
 
 function updateColor(DT, triangle) {
-  t += DT * 0.005;
+  t += DT * 2;
   triangle.color[0] = (Math.sin(t) + 1) / 2;
   triangle.color[1] = (Math.sin(t + 2) + 1) / 2;
   triangle.color[2] = (Math.sin(t + 4) + 1) / 2;
 }
 
 function updatePosition(DT, triangle) {
-  const speed = 0.001; // units per second
+  const speed = 1; // units per second
 
   if (isKeyDown("w")) triangle.position[1] += speed * DT;
   if (isKeyDown("s")) triangle.position[1] -= speed * DT;

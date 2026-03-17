@@ -22,7 +22,7 @@ async function main() {
   let last = 0;
 
   function loop(time) {
-    let DT = time - last;
+    let DT = (time - last) / 1000;
 
     last = time;
 

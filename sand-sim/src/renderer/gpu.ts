@@ -27,10 +27,8 @@ export async function initGpu() {
     console.error(`WebGPU device was lost: ${info.message}`);
 
     // 'reason' will be 'destroyed' if we intentionally destroy the device.
-    if (info.reason !== "destroyed") {
-      // try again
-      start();
-    }
+    // if (info.reason !== "destroyed") {
+    // }
   });
 
   return { adapter, device };

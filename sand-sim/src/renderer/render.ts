@@ -1,5 +1,5 @@
 import { createPipeline } from "./pipeline.ts";
-import { setBindGroups } from "./bindGroups.ts";
+import { setBindGroups } from "./buffers.ts";
 
 export function Render(gpu, canvas) {
   const { device } = gpu;
