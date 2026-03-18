@@ -1,6 +1,6 @@
 import { createRenderer } from "./renderer/render.ts";
 import { initGpu } from "./renderer/gpu.ts";
-import { addListeners, resizeCanvas } from "./engine/listeners.ts";
+import { addListeners, resizeCanvas } from "./engine/input.ts";
 import { update } from "./engine/update.ts";
 import type { Triangle } from "./engine/components.ts";
 
@@ -10,6 +10,7 @@ async function main() {
   addListeners(gpu.canvas, () => {
     resizeCanvas(gpu.canvas);
   });
+  resizeCanvas(gpu.canvas);
 
   const renderer = createRenderer(gpu.device, gpu.format, gpu.canvas);
 

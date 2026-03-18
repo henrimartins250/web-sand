@@ -1,7 +1,9 @@
-import { isKeyDown } from "./listeners.ts";
+import { isKeyDown, isKeyPressed, isKeyReleased } from "./input.ts";
 import type { Triangle } from "./components.ts";
+import { updateInput } from "./input.ts";
 
 export function update(DT: number, triangle: Triangle) {
+  updateInput();
   updateColor(DT, triangle);
   updatePosition(DT, triangle);
 }
