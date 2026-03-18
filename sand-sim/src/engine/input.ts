@@ -4,7 +4,7 @@ import {
   addMouseListeners,
 } from "./listeners.ts";
 
-type ButtonState = {
+export type ButtonState = {
   down: boolean;
   pressed: boolean;
   released: boolean;

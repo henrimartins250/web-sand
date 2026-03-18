@@ -1,4 +1,5 @@
 import { keys, mouse } from "./input.ts";
+import type { ButtonState } from "./input.ts";
 
 export function addWindowListeners(
   canvas: HTMLCanvasElement,
