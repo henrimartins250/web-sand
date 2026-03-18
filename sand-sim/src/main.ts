@@ -4,15 +4,24 @@ import { addListeners, resizeCanvas } from "./engine/input.ts";
 import { update } from "./engine/update.ts";
 import type { Triangle } from "./engine/components.ts";
 
+type Gpu = {
+  adapter: GPUAdapter;
+  device: GPUDevice;
+  format: GPUTextureFormat;
+  canvas: HTMLCanvasElement;
+};
+
 async function main() {
-  const gpu = await initGpu();
+  const canvas = document.querySelector("canvas") as HTMLCanvasElement;
 
-  addListeners(gpu.canvas, () => {
-    resizeCanvas(gpu.canvas);
+  const gpu: Gpu = await initGpu(canvas);
+
+  addListeners(canvas, () => {
+    resizeCanvas(canvas);
   });
-  resizeCanvas(gpu.canvas);
+  resizeCanvas(canvas);
 
-  const renderer = createRenderer(gpu.device, gpu.format, gpu.canvas);
+  const renderer = createRenderer(gpu.device, gpu.format, canvas);
 
   let triangle: Triangle = {
     position: [0, 0],

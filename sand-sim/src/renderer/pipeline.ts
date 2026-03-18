@@ -1,7 +1,7 @@
 import fs_red from "./shaders/fs_red.wgsl?raw";
 import vs_triangle from "./shaders/vs_triangle.wgsl?raw";
 
-export function createPipeline(device, format) {
+export function createPipeline(device: GPUDevice, format: GPUTextureFormat) {
   return device.createRenderPipeline({
     layout: "auto",
     vertex: {

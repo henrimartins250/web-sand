@@ -10,7 +10,7 @@ function fail(message) {
   document.body.appendChild(div);
 }
 
-export async function initGpu() {
+export async function initGpu(canvas: HTMLCanvasElement) {
   if (!navigator.gpu) {
     fail("this browser does not support WebGPU");
     return;
@@ -31,9 +31,7 @@ export async function initGpu() {
     // }
   });
 
-  const canvas = (await document.querySelector("canvas")) as HTMLCanvasElement;
-
   const format = await navigator.gpu.getPreferredCanvasFormat();
 
-  return { adapter, device, format, canvas };
+  return { adapter, device, format };
 }

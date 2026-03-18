@@ -71,10 +71,6 @@ export function isMouseReleased(button: "left" | "middle" | "right") {
   return mouse[button].released;
 }
 
-function resetMouseFrame() {
-  mouse.wheelDelta = 0;
-}
-
 export function addListeners(canvas: HTMLCanvasElement) {
   addMouseListeners(canvas);
   addWindowListeners(canvas, () => resizeCanvas(canvas));
@@ -82,7 +78,7 @@ export function addListeners(canvas: HTMLCanvasElement) {
 }
 
 export function updateInput() {
-  resetMouseFrame();
+  mouse.wheelDelta = 0;
 
   for (const key in keys) {
     keys[key].pressed = false;
@@ -93,7 +89,4 @@ export function updateInput() {
     btn.pressed = false;
     btn.released = false;
   }
-
-  // reset delta
-  mouse.delta = 0;
 }

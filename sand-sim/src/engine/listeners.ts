@@ -50,9 +50,9 @@ export function addMouseListeners(canvas: HTMLCanvasElement) {
     return null;
   }
 
-  const rect = canvas.getBoundingClientRect();
-
   canvas.addEventListener("mousemove", (e) => {
+    const rect = canvas.getBoundingClientRect();
+
     mouse.position[0] = e.clientX - rect.left;
     mouse.position[1] = e.clientY - rect.top;
   });

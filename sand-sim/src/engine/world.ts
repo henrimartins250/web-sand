@@ -1,5 +1,2 @@
 // ignore
-export type Triangle = {
-  position: [number, number];
-  color: [number, number, number];
-};
+// future world handler, dont yet have a world to handle
